@@ -11,6 +11,7 @@
 		"react-native": "0.50.4",
 		"react-native-linear-gradient": "^2.3.0",
 		"react-native-tapsell": "^2.15.6",
+		"react-native-vector-icons": "^4.5.0",
 		"react-navigation": "^1.0.0-beta.21"
 	},
 	"devDependencies": {
@@ -23,8 +24,8 @@
 		"preset": "react-native"
 	},
 	"rnpm": {
-    "assets": [
+		"assets": [
 			"./assets/fonts/"
-    ]
+		]
 	}
 }

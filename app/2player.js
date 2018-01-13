@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StatusBar, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import LinearGradient from "react-native-linear-gradient";
+import Icon from 'react-native-vector-icons/Feather';
+
 export default class App extends Component {
   constructor(props) {
 		super(props);
@@ -48,6 +50,8 @@ export default class App extends Component {
         clearTimeout(whiterTimer)
         this.setWhiter()
         break;
+      case "BREAK":
+          break;
       case "FINISHED":
           break;
       default:
@@ -86,6 +90,8 @@ export default class App extends Component {
         clearTimeout(whiterTimer)
         this.setWhiter()
         break;
+      case "BREAK":
+          break;
       case "FINISHED":
           break;
       default:
@@ -104,6 +110,21 @@ export default class App extends Component {
       this.setState({player1Text: "Loser!", player2Text: "Winner!", button1Color: "#f44336", button2Color: "#4caf50", gradient: ["#ffffff", "#ffffff"]})
     }
     clearTimeout(whiterTimer)
+  }
+
+  pauseGame = () => {
+    //clearTimeout(whiterTimer)
+    this.stage = "BREAK"
+  }
+
+  resumeGame = () => {
+    //clearTimeout(whiterTimer)
+    this.stage = "READY"
+    this.setWhiter()
+  }
+
+  stopGame = () => {
+
   }
 
   setWhiter = () => {
@@ -150,7 +171,7 @@ export default class App extends Component {
         color: "white",
         fontFamily: "Roboto-Thin",
         textAlign: "center",
-        fontSize: 25
+        fontSize: 50
       },
       buttonText: {
         textAlign: "center",
@@ -172,8 +193,23 @@ export default class App extends Component {
         <TouchableOpacity style={[styles.button,{borderColor: this.state.button1Color}]} onPressIn={this.player1Click}>
           <Text style={[styles.buttonText,{transform: [{ rotate: '180deg'}],color: this.state.button1Color}]}> {this.state.player1Text} </Text>
         </TouchableOpacity>
-        <Text style={[styles.judgeText,{transform: [{ rotate: '180deg'}]}]}> timer </Text>
-        <Text style={styles.judgeText}> timer </Text>
+        {this.stage!="BREAK"
+          ?
+          <View style={{justifyContent: "space-around", flexDirection: "row"}}>
+            <TouchableOpacity onPressIn={this.pauseGame}>
+              <Icon style={styles.judgeText} name="pause" size={10} />
+            </TouchableOpacity>
+          </View>
+          :
+          <View style={{justifyContent: "space-around", flexDirection: "row"}}>
+            <TouchableOpacity onPressIn={this.resumeGame}>
+              <Icon style={styles.judgeText} name="play" size={10} />
+            </TouchableOpacity>
+            <TouchableOpacity onPressIn={this.stopGame}>
+              <Icon style={styles.judgeText} name="x" size={10} />
+            </TouchableOpacity>
+          </View>
+        }
         <TouchableOpacity style={[styles.button,{borderColor: this.state.button2Color}]} onPressIn={this.player2Click}>
           <Text style={[styles.buttonText,{color: this.state.button2Color}]}> {this.state.player2Text} </Text>
         </TouchableOpacity>
