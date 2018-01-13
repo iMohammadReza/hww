@@ -1,4 +1,4 @@
-package com.hww;
+package ir.imohammadreza.hww;
 
 import com.facebook.react.ReactActivity;
 

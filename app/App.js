@@ -1,8 +1,22 @@
 import React, { Component } from 'react';
 import { StatusBar, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import LinearGradient from "react-native-linear-gradient";
+//import Tapsell from 'react-native-tapsell'
 
 export default class App extends Component {
+  constructor(props) {
+		super(props);
+		this.state = {
+    };
+  }
+
+  /*componentWillMount = () => {
+    Tapsell.initialize("stphtqhosdacbsecddhjplpsrbbamkmikclrdcpqaadcndtidensigoqelcrfddrtslcjs")
+  }*/
+  aboutPress = () => {
+
+  }
+
   render() {
     return (
      <LinearGradient
@@ -10,7 +24,7 @@ export default class App extends Component {
         style={styles.container}>
         <StatusBar
           backgroundColor="transparent"
-          barStyle="dark-content"
+          barStyle="light-content"
           translucent={true}>
         </StatusBar>
         <View style={styles.titleContainer} >
@@ -18,15 +32,19 @@ export default class App extends Component {
         </View>
         <View style={styles.listContainer}>
           <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate("TwoPlayer")} >
-            <Text style={styles.buttonText} >2 Player</Text>
+            <Text style={styles.buttonText} > Classic </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate("FoirPlayer")} >
-            <Text style={styles.buttonText} >4 Player</Text>
+          <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate("FourPlayer")} >
+            <Text style={styles.buttonText} >Extreme</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate("FourPlayer")} >
+            <Text style={styles.buttonText} >Colorful</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => this.aboutPress} >
+            <Text style={styles.buttonTextAbout}>About!</Text>
           </TouchableOpacity>
         </View>
-
-
-
+        
     </LinearGradient>
 
     );
@@ -55,14 +73,15 @@ const styles = StyleSheet.create({
 		flex: 1,
 		marginTop: 32,
 		alignItems: 'center',
-		justifyContent: 'center',
+    justifyContent: 'center',
+    marginBottom: 40
 	},
   button: {
     backgroundColor: "white",
 
     borderWidth: 2,
     borderColor: "white",
-    margin: 10,
+    margin:5,
     top: 0
   },
   buttonText: {
@@ -70,10 +89,19 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     //textDecorationLine: "underline",
     textAlign: "center",
-    fontSize: 30,
+    fontSize: 26,
     padding: 10,
     paddingLeft: 20,
     paddingRight: 20
+  },
+  buttonTextAbout: {
+    color: "#904E95",
+    fontWeight: "bold",
+    //textDecorationLine: "underline",
+    textAlign: "center",
+    fontSize: 20,
+    padding: 5,
+    paddingLeft: 20,
+    paddingRight: 20
   }
-
 });

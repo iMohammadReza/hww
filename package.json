@@ -1,5 +1,5 @@
 {
-	"name": "hww",
+	"name": "HitWhenWhite",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
@@ -10,6 +10,7 @@
 		"react": "16.0.0",
 		"react-native": "0.50.4",
 		"react-native-linear-gradient": "^2.3.0",
+		"react-native-tapsell": "^2.15.6",
 		"react-navigation": "^1.0.0-beta.21"
 	},
 	"devDependencies": {

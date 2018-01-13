@@ -13,7 +13,7 @@ export default class App extends Component {
   }
   countDown;
   whiterTimer;
-  stage = "INIT"; // INIT, COUNTER, READY, WHITE, BREAK,
+  stage = "INIT"; // INIT, COUNTER, READY, WHITE, BREAK, FINISHED
   scorePlayer1 = 0;
   scorePlayer2 = 0;
   counter = 3;
@@ -21,10 +21,7 @@ export default class App extends Component {
   isReadyPlayer2 = false;
 
   player1Click = () => {
-    if(this.scorePlayer1>9 || this.scorePlayer1<0){
-      //finish game
-    }else{
-      switch (this.stage) {
+    switch (this.stage) {
       case "INIT":
           this.isReadyPlayer1 = true;
           this.setState({player1Text: "Ready!"})
@@ -34,7 +31,7 @@ export default class App extends Component {
             this.setState({player2Text: this.counter})
             countDown = setInterval( () => {
               this.setCounterPassed();
-           },1000);
+            },1000);
           }
           break;
       case "COUNTER":
@@ -49,48 +46,64 @@ export default class App extends Component {
         this.setState({player1Text: this.scorePlayer1})
         this.setWhiter()
         break;
-        default:
+      case "FINISHED":
+          
           break;
-      }
+      default:
+        break;
+    }
+    if(this.scorePlayer1>9 || this.scorePlayer1<-9){
+      this.finishGame()
     }
   }
 
   player2Click = () => {
-    if(this.scorePlayer2>9 || this.scorePlayer2<0){
-      //finish game
-    }else{
-      switch (this.stage) {
-        case "INIT":
-          this.isReadyPlayer2 = true;
-          this.setState({player2Text: "Ready!"})
-          if (this.isReadyPlayer1) {
-            this.stage = "COUNTER";
-            this.setState({player1Text: this.counter})
-            this.setState({player2Text: this.counter})
-            countDown = setInterval( () => {
-              this.setCounterPassed();
-            },1000);
-          }
+    switch (this.stage) {
+      case "INIT":
+        this.isReadyPlayer2 = true;
+        this.setState({player2Text: "Ready!"})
+        if (this.isReadyPlayer1) {
+          this.stage = "COUNTER";
+          this.setState({player1Text: this.counter})
+          this.setState({player2Text: this.counter})
+          countDown = setInterval( () => {
+            this.setCounterPassed();
+          },1000);
+        }
+        break;
+      case "COUNTER":
+        break;
+      case "READY":
+        this.scorePlayer2--;
+        this.setState({player2Text: this.scorePlayer2})
+        clearTimeout(whiterTimer)
+        this.setWhiter()
+        break;
+      case "WHITE":
+        this.scorePlayer2++;
+        this.setState({player2Text: this.scorePlayer2})
+        clearTimeout(whiterTimer)
+        this.setWhiter()
+        break;
+      case "FINISHED":
+          
           break;
-        case "COUNTER":
-          break;
-        case "READY":
-          this.scorePlayer2--;
-          this.setState({player2Text: this.scorePlayer2})
-          clearTimeout(whiterTimer)
-          this.setWhiter()
-          break;
-        case "WHITE":
-          this.scorePlayer2++;
-          this.setState({player2Text: this.scorePlayer2})
-          clearTimeout(whiterTimer)
-          this.setWhiter()
-          break;
-        default:
-          break;
-      }
+      default:
+        break;
     }
-    
+    if(this.scorePlayer2>9 || this.scorePlayer2<-9){
+      this.finishGame()
+    }
+  }
+
+  finishGame = () => {
+    this.stage ="FINISHED"
+    if(this.scorePlayer1>9 || this.scorePlayer2<-9){
+      this.setState({player1Text: "Winner!", player2Text: "Loser!"})
+    }else if(this.scorePlayer2>9 || this.scorePlayer1<-9){
+      this.setState({player1Text: "Loser!", player2Text: "Winner!"})
+    }
+    clearTimeout(whiterTimer)
   }
 
   setWhiter = () => {
