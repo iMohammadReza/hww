@@ -8,7 +8,8 @@ export default class App extends Component {
       player1Text : "Hit To Start!",
       player2Text : "Hit To Start!",
       gradient : ["#E96443", "#904E95"],
-      buttonColor : "#ffffff"
+      button1Color : "#ffffff",
+      button2Color : "#ffffff"
       };
   }
   countDown;
@@ -44,10 +45,10 @@ export default class App extends Component {
       case "WHITE":
         this.scorePlayer1++;
         this.setState({player1Text: this.scorePlayer1})
+        clearTimeout(whiterTimer)
         this.setWhiter()
         break;
       case "FINISHED":
-
           break;
       default:
         break;
@@ -86,7 +87,6 @@ export default class App extends Component {
         this.setWhiter()
         break;
       case "FINISHED":
-
           break;
       default:
         break;
@@ -99,19 +99,19 @@ export default class App extends Component {
   finishGame = () => {
     this.stage ="FINISHED"
     if(this.scorePlayer1>9 || this.scorePlayer2<-9){
-      this.setState({player1Text: "Winner!", player2Text: "Loser!"})
+      this.setState({player1Text: "Winner!", player2Text: "Loser!", button1Color: "#4caf50", button2Color: "#f44336", gradient: ["#ffffff", "#ffffff"]})
     }else if(this.scorePlayer2>9 || this.scorePlayer1<-9){
-      this.setState({player1Text: "Loser!", player2Text: "Winner!"})
+      this.setState({player1Text: "Loser!", player2Text: "Winner!", button1Color: "#f44336", button2Color: "#4caf50", gradient: ["#ffffff", "#ffffff"]})
     }
     clearTimeout(whiterTimer)
   }
 
   setWhiter = () => {
     this.stage = "READY"
-    this.setState({gradient: ["#E96443", "#904E95"], buttonColor: "#ffffff"})
+    this.setState({gradient: ["#E96443", "#904E95"], button1Color: "#ffffff", button2Color: "#ffffff"})
     whiterTimer = setTimeout( () => {
       this.stage = "WHITE"
-      this.setState({gradient: ["#ffffff", "#ffffff"], buttonColor: "#904E95"})
+      this.setState({gradient: ["#ffffff", "#ffffff"], button1Color: "#904E95",  button2Color: "#904E95"})
     },2000);
   }
 
@@ -144,7 +144,6 @@ export default class App extends Component {
         margin:20,
         alignItems: 'center',
         justifyContent: 'center',
-        borderColor: this.state.buttonColor,
         borderWidth: 3
       },
       judgeText: {
@@ -154,7 +153,6 @@ export default class App extends Component {
         fontSize: 25
       },
       buttonText: {
-        color: this.state.buttonColor,
         textAlign: "center",
         fontFamily: "Roboto-Thin",
         fontSize: 45
@@ -171,13 +169,13 @@ export default class App extends Component {
           hidden={true}
           translucent={true}>
         </StatusBar>
-        <TouchableOpacity style={styles.button} onPressIn={this.player1Click}>
-          <Text style={[styles.buttonText,{transform: [{ rotate: '180deg'}]}]}> {this.state.player1Text} </Text>
+        <TouchableOpacity style={[styles.button,{borderColor: this.state.button1Color}]} onPressIn={this.player1Click}>
+          <Text style={[styles.buttonText,{transform: [{ rotate: '180deg'}],color: this.state.button1Color}]}> {this.state.player1Text} </Text>
         </TouchableOpacity>
         <Text style={[styles.judgeText,{transform: [{ rotate: '180deg'}]}]}> timer </Text>
         <Text style={styles.judgeText}> timer </Text>
-        <TouchableOpacity style={styles.button} onPressIn={this.player2Click}>
-          <Text style={styles.buttonText}> {this.state.player2Text} </Text>
+        <TouchableOpacity style={[styles.button,{borderColor: this.state.button2Color}]} onPressIn={this.player2Click}>
+          <Text style={[styles.buttonText,{color: this.state.button2Color}]}> {this.state.player2Text} </Text>
         </TouchableOpacity>
       </LinearGradient>
     );
