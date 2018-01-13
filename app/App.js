@@ -44,7 +44,7 @@ export default class App extends Component {
             <Text style={styles.buttonTextAbout}>About!</Text>
           </TouchableOpacity>
         </View>
-        
+
     </LinearGradient>
 
     );
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "white",
+    fontFamily: "Roboto-Thin",
     textAlign: "center",
     fontSize: 45,
     borderWidth: 2,
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#904E95",
-    fontWeight: "bold",
+    fontFamily: "Roboto-Thin",
     //textDecorationLine: "underline",
     textAlign: "center",
     fontSize: 26,
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
   },
   buttonTextAbout: {
     color: "#904E95",
-    fontWeight: "bold",
+    fontFamily: "Roboto-Thin",
     //textDecorationLine: "underline",
     textAlign: "center",
     fontSize: 20,

@@ -47,7 +47,7 @@ export default class App extends Component {
         this.setWhiter()
         break;
       case "FINISHED":
-          
+
           break;
       default:
         break;
@@ -86,7 +86,7 @@ export default class App extends Component {
         this.setWhiter()
         break;
       case "FINISHED":
-          
+
           break;
       default:
         break;
@@ -149,12 +149,14 @@ export default class App extends Component {
       },
       judgeText: {
         color: "white",
+        fontFamily: "Roboto-Thin",
         textAlign: "center",
         fontSize: 25
       },
       buttonText: {
         color: this.state.buttonColor,
         textAlign: "center",
+        fontFamily: "Roboto-Thin",
         fontSize: 45
       }
     });

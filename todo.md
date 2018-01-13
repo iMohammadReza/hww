@@ -1,7 +1,6 @@
 about animation
 tapsell ads
 mode buttons with animation: classic, extreme, colorful
-font
 
 game pause buttons
 finish game design
