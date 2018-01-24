@@ -4,11 +4,13 @@
 	"private": true,
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
+		"packager:kill": "react-native-kill-packager",
+  	"packager:restart": "react-native-kill-packager; npm start",
 		"test": "jest"
 	},
 	"dependencies": {
-		"react": "16.0.0",
-		"react-native": "0.50.4",
+		"react": "16.2.0",
+		"react-native": "0.52.1",
 		"react-native-linear-gradient": "^2.3.0",
 		"react-native-tapsell": "^2.15.6",
 		"react-native-vector-icons": "^4.5.0",

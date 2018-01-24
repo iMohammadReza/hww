@@ -11,7 +11,9 @@ export default class App extends Component {
       player2Text : "Hit To Start!",
       gradient : ["#E96443", "#904E95"],
       button1Color : "#ffffff",
-      button2Color : "#ffffff"
+      button2Color : "#ffffff",
+      buttonControl : "#ffffff",
+      isBreak: false
       };
   }
   countDown;
@@ -105,9 +107,9 @@ export default class App extends Component {
   finishGame = () => {
     this.stage ="FINISHED"
     if(this.scorePlayer1>9 || this.scorePlayer2<-9){
-      this.setState({player1Text: "Winner!", player2Text: "Loser!", button1Color: "#4caf50", button2Color: "#f44336", gradient: ["#ffffff", "#ffffff"]})
+      this.setState({player1Text: "Winner!", player2Text: "Loser!", button1Color: "#4caf50", button2Color: "#f44336", gradient: ["#ffffff", "#ffffff"], buttonControl: "#904E95"})
     }else if(this.scorePlayer2>9 || this.scorePlayer1<-9){
-      this.setState({player1Text: "Loser!", player2Text: "Winner!", button1Color: "#f44336", button2Color: "#4caf50", gradient: ["#ffffff", "#ffffff"]})
+      this.setState({player1Text: "Loser!", player2Text: "Winner!", button1Color: "#f44336", button2Color: "#4caf50", gradient: ["#ffffff", "#ffffff"], buttonControl: "#904E95"})
     }
     clearTimeout(whiterTimer)
   }
@@ -115,11 +117,13 @@ export default class App extends Component {
   pauseGame = () => {
     //clearTimeout(whiterTimer)
     this.stage = "BREAK"
+    this.setState({isBreak: true})
   }
 
   resumeGame = () => {
     //clearTimeout(whiterTimer)
     this.stage = "READY"
+    this.setState({isBreak: false})
     this.setWhiter()
   }
 
@@ -129,11 +133,11 @@ export default class App extends Component {
 
   setWhiter = () => {
     this.stage = "READY"
-    this.setState({gradient: ["#E96443", "#904E95"], button1Color: "#ffffff", button2Color: "#ffffff"})
+    this.setState({gradient: ["#E96443", "#904E95"], button1Color: "#ffffff", button2Color: "#ffffff", buttonControl: "#ffffff"})
     whiterTimer = setTimeout( () => {
       this.stage = "WHITE"
-      this.setState({gradient: ["#ffffff", "#ffffff"], button1Color: "#904E95",  button2Color: "#904E95"})
-    },2000);
+      this.setState({gradient: ["#ffffff", "#ffffff"], button1Color: "#904E95",  button2Color: "#904E95", buttonControl: "#904E95"})
+    },Math.floor(Math.random()*6000)+700);
   }
 
   setCounterPassed = () => {
@@ -193,20 +197,20 @@ export default class App extends Component {
         <TouchableOpacity style={[styles.button,{borderColor: this.state.button1Color}]} onPressIn={this.player1Click}>
           <Text style={[styles.buttonText,{transform: [{ rotate: '180deg'}],color: this.state.button1Color}]}> {this.state.player1Text} </Text>
         </TouchableOpacity>
-        {this.stage!="BREAK"
+        { !this.state.isBreak
           ?
           <View style={{justifyContent: "space-around", flexDirection: "row"}}>
             <TouchableOpacity onPressIn={this.pauseGame}>
-              <Icon style={styles.judgeText} name="pause" size={10} />
+              <Icon style={[styles.judgeText,{color: this.state.buttonControl}]} name="pause" size={10} />
             </TouchableOpacity>
           </View>
           :
           <View style={{justifyContent: "space-around", flexDirection: "row"}}>
             <TouchableOpacity onPressIn={this.resumeGame}>
-              <Icon style={styles.judgeText} name="play" size={10} />
+              <Icon style={[styles.judgeText,{color: this.state.buttonControl}]} name="play" size={10} />
             </TouchableOpacity>
             <TouchableOpacity onPressIn={this.stopGame}>
-              <Icon style={styles.judgeText} name="x" size={10} />
+              <Icon style={[styles.judgeText,{color: this.state.buttonControl}]} name="x" size={10} />
             </TouchableOpacity>
           </View>
         }
