@@ -14,6 +14,7 @@ export default class App extends Component {
       button2Color : "#ffffff",
       buttonControl : "#ffffff",
       stage: "INIT", // INIT, COUNTER, READY, WHITE, BREAK, FINISHED
+      buttonDisabled: false
     }
   }
   countDown;
@@ -100,12 +101,12 @@ export default class App extends Component {
   }
 
   finishGame = () => {
+    clearTimeout(whiterTimer)
     if(this.scorePlayer1>9 || this.scorePlayer2<-9){
       this.setState({stage:"FINISHED", player1Text: "Winner!", player2Text: "Loser!", button1Color: "#4caf50", button2Color: "#f44336", gradient: ["#ffffff", "#ffffff"], buttonControl: "#904E95"})
     }else if(this.scorePlayer2>9 || this.scorePlayer1<-9){
       this.setState({stage:"FINISHED", player1Text: "Loser!", player2Text: "Winner!", button1Color: "#f44336", button2Color: "#4caf50", gradient: ["#ffffff", "#ffffff"], buttonControl: "#904E95"})
     }
-    clearTimeout(whiterTimer)
   }
 
   pauseGame = () => {
@@ -124,7 +125,16 @@ export default class App extends Component {
   }
 
   stopGame = () => {
+    this.props.navigation.goBack()
+  }
 
+  restartGame = () => {
+    this.setState({stage: "INIT", player1Text: "Hit To Start!", player2Text: "Hit To Start!", gradient: ["#E96443", "#904E95"], button1Color: "#ffffff", button2Color: "#ffffff", buttonControl: "#ffffff"})
+    this.scorePlayer1 = 0;
+    this.scorePlayer2 = 0;
+    this.counter = 3;
+    this.isReadyPlayer1 = false;
+    this.isReadyPlayer2 = false;
   }
 
   setWhiter = () => {
@@ -173,7 +183,15 @@ export default class App extends Component {
         fontSize: 45
       }
     });
+
     console.log(this.state.stage)
+
+    // if (this.state.stage == "COUNTER" || this.state.stage == "BREAK" || this.state.stage == "FINISHED") {
+    //   this.setState({buttonDisabled: true})
+    // } else {
+    //   this.setState({buttonDisabled: true})
+    // }
+
     return (
       <LinearGradient
       colors={this.state.gradient}
@@ -184,30 +202,39 @@ export default class App extends Component {
           hidden={true}
           translucent={true}>
         </StatusBar>
-        <TouchableOpacity style={[styles.button,{borderColor: this.state.button1Color}]} onPressIn={this.player1Click}>
+        <TouchableOpacity disabled={this.state.buttonDisabled} style={[styles.button,{borderColor: this.state.button1Color}]} onPressIn={this.player1Click}>
           <Text style={[styles.buttonText,{transform: [{ rotate: '180deg'}],color: this.state.button1Color}]}> {this.state.player1Text} </Text>
         </TouchableOpacity>
-        {this.state.stage != "INIT" && this.state.stage != "COUNTER" ?
+        {this.state.stage != "INIT" && this.state.stage != "COUNTER"
+          ?
             this.state.stage != "BREAK"
             ?
-            <View style={{justifyContent: "space-around", flexDirection: "row"}}>
-              <TouchableOpacity onPressIn={this.pauseGame}>
-                <Icon style={[styles.judgeText,{color: this.state.buttonControl}]} name="pause" size={10} />
-              </TouchableOpacity>
-            </View>
+              this.state.stage == "FINISHED"
+              ?
+                <View style={{justifyContent: "space-around", flexDirection: "row"}}>
+                  <TouchableOpacity onPressIn={this.restartGame}>
+                    <Icon style={[styles.judgeText,{color: "black"}]} name="rotate-ccw" size={10} />
+                  </TouchableOpacity>
+                </View>
+              :
+                <View style={{justifyContent: "space-around", flexDirection: "row"}}>
+                  <TouchableOpacity onPressIn={this.pauseGame}>
+                    <Icon style={[styles.judgeText,{color: this.state.buttonControl}]} name="pause" size={10} />
+                  </TouchableOpacity>
+                </View>
             :
-            <View style={{justifyContent: "space-around", flexDirection: "row"}}>
-              <TouchableOpacity onPressIn={this.resumeGame}>
-                <Icon style={[styles.judgeText,{color: this.state.buttonControl}]} name="play" size={10} />
-              </TouchableOpacity>
-              <TouchableOpacity onPressIn={this.stopGame}>
-                <Icon style={[styles.judgeText,{color: this.state.buttonControl}]} name="x" size={10} />
-              </TouchableOpacity>
-            </View>
+              <View style={{justifyContent: "space-around", flexDirection: "row"}}>
+                <TouchableOpacity onPressIn={this.resumeGame}>
+                  <Icon style={[styles.judgeText,{color: this.state.buttonControl}]} name="play" size={10} />
+                </TouchableOpacity>
+                <TouchableOpacity onPressIn={this.stopGame}>
+                  <Icon style={[styles.judgeText,{color: this.state.buttonControl}]} name="x" size={10} />
+                </TouchableOpacity>
+              </View>
           :
           null
         }
-        <TouchableOpacity style={[styles.button,{borderColor: this.state.button2Color}]} onPressIn={this.player2Click}>
+        <TouchableOpacity disabled={this.state.buttonDisabled} style={[styles.button,{borderColor: this.state.button2Color}]} onPressIn={this.player2Click}>
           <Text style={[styles.buttonText,{color: this.state.button2Color}]}> {this.state.player2Text} </Text>
         </TouchableOpacity>
       </LinearGradient>
